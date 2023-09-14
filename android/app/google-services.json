@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "25891902020",
+    "firebase_url": "https://budybuddy-52db9-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "budybuddy-52db9",
+    "storage_bucket": "budybuddy-52db9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25891902020:android:60af741ff125a1fe7ca211",
+        "android_client_info": {
+          "package_name": "com.example.budy_buddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFtMWz0J-8Kl0dZOeub7utUrVVfz7aUk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
