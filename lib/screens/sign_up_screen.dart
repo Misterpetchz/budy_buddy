@@ -2,7 +2,7 @@ import 'package:budy_buddy/screens/sign_in_screen.dart';
 import 'package:budy_buddy/utils/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:budy_buddy/data/user_info.dart' as user_info;
+import 'package:budy_buddy/data/user_info.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -31,13 +31,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       final uid = userCredential.user?.uid;
 
       if (uid != null) {
-        final userInfo = user_info.UserInfo(
-          name: _nameController.text.trim(),
-          totalBalance: 0,
-          transactions: [],
-        );
+        final userInfo = UserModel(name: _nameController.text.trim(), totalBalance: 0, transactions: []);
 
-        await database.ref().child('users').child(uid).set(userInfo.toMap());
+        await database
+            .ref()
+            .child('users')
+            .child(uid)
+            .set(userModelToJson(userInfo));
       }
     } on FirebaseAuthException catch (e) {
       debugPrint('$e');

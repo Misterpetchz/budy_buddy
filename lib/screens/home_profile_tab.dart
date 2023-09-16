@@ -1,91 +1,110 @@
+import 'package:budy_buddy/data/user_info.dart';
 import 'package:budy_buddy/utils/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class HomeProfileTab extends StatelessWidget {
+class HomeProfileTab extends StatefulWidget {
   const HomeProfileTab({super.key});
+
+  @override
+  State<HomeProfileTab> createState() => _HomeProfileTabState();
+}
+
+class _HomeProfileTabState extends State<HomeProfileTab> {
+  final database = FirebaseDatabase.instance;
+
+  final currentUser = FirebaseAuth.instance.currentUser!;
+
+  String userName = '';
+
+  void readUserData() async {
+    final uid = currentUser.uid;
+    final userRef = database.ref().child('users').child(uid);
+    userRef.once().then((DatabaseEvent event) {
+      final snapshot = event.snapshot;
+      if (snapshot.value != null) {
+        // Data exists, you can access it here
+        final userData = snapshot.value.toString();
+        final UserModel user = userModelFromJson(userData);
+        setState(() {
+          userName = user.name;
+          // total = user.totalBalance;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    readUserData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: background,
-        leading: const Icon(
-          Icons.arrow_back_ios,
-          color: Colors.grey,
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: defaultSpacing),
-            child: Icon(
-              Icons.settings,
-              color: Colors.grey,
-            ),
-          )
-        ],
-      ),
       body: SafeArea(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: defaultSpacing,
-          ),
-          Expanded(
-            flex: 1,
-            child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: defaultSpacing,
+            ),
+            Center(
               child: Column(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(defaultRadius),
                     child: Image.asset(
-                      'assets/images/avatar.jpeg',
+                      'assets/images/person.png',
                       width: 100,
                     ),
                   ),
                   Text(
-                    'Jacob Timeberline',
+                    userName,
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge
                         ?.copyWith(fontWeight: FontWeight.w700),
                   ),
+                  const SizedBox(
+                    height: defaultSpacing / 2,
+                  ),
                   Text(
-                    'jacobtimerline@gmail.com',
+                    currentUser.email.toString(),
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
                         ?.copyWith(color: Colors.grey[600]),
                   ),
-                  const Chip(
-                    label: Text('Edit Profile'),
+                  const SizedBox(
+                    height: defaultSpacing / 2,
                   ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-              flex: 2,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: defaultSpacing),
-                    child: Text(
-                      'General',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w700, color: Colors.grey[700]),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(defaultRadius),
                     ),
-                  ),
-                  ElevatedButton(
+                    child: ElevatedButton(
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
                       },
-                      child: const Text('Sign Out'))
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: secondaryDark,
+                      ),
+                      child: const Text(
+                        'Sign Out',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  )
                 ],
-              ))
-        ],
-      )),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

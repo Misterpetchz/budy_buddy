@@ -1,4 +1,3 @@
-import 'package:budy_buddy/screens/main_screen_host.dart';
 import 'package:budy_buddy/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

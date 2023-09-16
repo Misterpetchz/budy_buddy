@@ -32,8 +32,8 @@ class _MainScreenHostState extends State<MainScreenHost> {
       case 0:
         return const HomeScreenTab();
       case 1:
-        // return const StatScreenTab();
-        return Container();
+        return const StatScreenTab();
+      // return Container();
       case 2:
         return Container();
       case 3:

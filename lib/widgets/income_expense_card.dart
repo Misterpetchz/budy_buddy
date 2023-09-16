@@ -18,7 +18,7 @@ class IncomeExpenseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
+      height: 85,
       padding: const EdgeInsets.all(defaultSpacing),
       decoration: BoxDecoration(
           boxShadow: const [

@@ -1,42 +1,45 @@
 // import 'package:firebase_database/firebase_database.dart';
+import 'dart:convert';
 
 enum TransactionType { outflow, inflow }
 
-enum ItemCategoryType { fashion, grocery, payments }
+enum ItemCategoryType {
+  payments,
+  salary,
+  transportation,
+  food,
+  health,
+  gifts,
+  entertainment,
+  sport
+}
 
-class UserInfo {
+UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
+
+String userModelToJson(UserModel data) => json.encode(data.toJson());
+
+class UserModel {
   final String name;
-  final double totalBalance;
-  final List<Transaction> transactions;
+  final int totalBalance;
+  final List<dynamic> transactions;
 
-  const UserInfo({
+  UserModel({
     required this.name,
     required this.totalBalance,
     required this.transactions,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'totalBalance': totalBalance,
-      'transactions':
-          transactions.map((transaction) => transaction.toMap()).toList(),
-    };
-  }
-  //   factory UserInfo.fromSnapshot(DataSnapshot snapshot) {
-  //   final Map<dynamic, dynamic> data = snapshot.value;
-  //   final List<dynamic> transactionsData = data['transactions'] ?? [];
-  //   final List<Transaction> transactions = transactionsData.map((transactionData) {
-  //     return Transaction.fromMap(transactionData);
-  //   }).toList();
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+        name: json["name"],
+        totalBalance: json["totalBalance"],
+        transactions: List<dynamic>.from(json["transactions"].map((x) => x)),
+      );
 
-  //   return UserInfo(
-  //     uid: data['uid'],
-  //     name: data['name'],
-  //     totalBalance: data['totalBalance'].toDouble(),
-  //     transactions: transactions,
-  //   );
-  // }
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "totalBalance": totalBalance,
+        "transactions": List<dynamic>.from(transactions.map((x) => x)),
+      };
 }
 
 class Transaction {
@@ -61,24 +64,14 @@ class Transaction {
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,
-      'categoryType': categoryType,
-      'transactionType': transactionType,
+      'categoryType': categoryType.toString().split('.').last,
+      'transactionType': transactionType.toString().split('.').last,
       'itemCategoryName': itemCategoryName,
       'itemName': itemName,
       'amount': amount,
       'date': date
     };
   }
-
-  // factory Transaction.fromMap(Map<dynamic, dynamic> map) {
-  //   return Transaction(
-  //     categoryType: map['categoryType'],
-  //     transactionType: map['transactionType'],
-  //     itemCategoryName: map['itemCategoryName'],
-  //     itemName: map['itemName'],
-  //     amount: map['amount'].toDouble(),
-  //     date: map['date'],
-  //   );
 }
 
 // const userdata = UserInfo(
