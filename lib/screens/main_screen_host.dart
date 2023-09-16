@@ -53,44 +53,56 @@ class _MainScreenHostState extends State<MainScreenHost> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            IconButton(
-              icon: const Icon(
-                Icons.home,
+            SizedBox(
+              height: 60,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.home,
+                ),
+                color: currentIndex == 0 ? secondaryDark : Colors.black,
+                onPressed: () {
+                  setState(() {
+                    currentIndex = 0;
+                  });
+                },
               ),
-              color: currentIndex == 0 ? secondaryDark : Colors.black,
-              onPressed: () {
-                setState(() {
-                  currentIndex = 0;
-                });
-              },
             ),
-            IconButton(
-              icon: const Icon(Icons.bar_chart_rounded),
-              color: currentIndex == 1 ? secondaryDark : Colors.black,
-              onPressed: () {
-                setState(() {
-                  currentIndex = 1;
-                });
-              },
+            SizedBox(
+              height: 60,
+              child: IconButton(
+                icon: const Icon(Icons.bar_chart_rounded),
+                color: currentIndex == 1 ? secondaryDark : Colors.black,
+                onPressed: () {
+                  setState(() {
+                    currentIndex = 1;
+                  });
+                },
+              ),
             ),
             const SizedBox(width: 48.0), // Add some space between buttons.
-            IconButton(
-              icon: const Icon(Icons.wallet_outlined),
-              color: currentIndex == 2 ? secondaryDark : Colors.black,
-              onPressed: () {
-                setState(() {
-                  currentIndex = 2;
-                });
-              },
+            SizedBox(
+              height: 60,
+              child: IconButton(
+                icon: const Icon(Icons.wallet_outlined),
+                color: currentIndex == 2 ? secondaryDark : Colors.black,
+                onPressed: () {
+                  setState(() {
+                    currentIndex = 2;
+                  });
+                },
+              ),
             ),
-            IconButton(
-              icon: const Icon(Icons.person),
-              color: currentIndex == 3 ? secondaryDark : Colors.black,
-              onPressed: () {
-                setState(() {
-                  currentIndex = 3;
-                });
-              },
+            SizedBox(
+              height: 60,
+              child: IconButton(
+                icon: const Icon(Icons.person),
+                color: currentIndex == 3 ? secondaryDark : Colors.black,
+                onPressed: () {
+                  setState(() {
+                    currentIndex = 3;
+                  });
+                },
+              ),
             ),
           ],
         ),

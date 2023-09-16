@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:budy_buddy/data/transaction_model.dart';
 import 'package:budy_buddy/utils/constant.dart';
+import 'package:budy_buddy/widgets/delete_transaction_dialog.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class TransactionItemTile extends StatelessWidget {
@@ -47,7 +49,28 @@ class TransactionItemTile extends StatelessWidget {
   }
 
   Color getRandomBgColor() {
-    return Color(Random().nextInt(0xFF000000));
+    final random = Random();
+    const int minBrightness = 192;
+
+    int red = minBrightness + random.nextInt(256 - minBrightness);
+    int green = minBrightness + random.nextInt(256 - minBrightness);
+    int blue = minBrightness + random.nextInt(256 - minBrightness);
+
+    return Color.fromARGB(255, red, green, blue);
+  }
+
+  void deleteTransaction(String transactionId) async {
+    try {
+      print('Deleting with Id: $transactionId');
+      final transactionRef = FirebaseDatabase.instance
+          .ref()
+          .child('transactions')
+          .child(transactionId);
+
+      await transactionRef.remove();
+    } catch (error) {
+      print(error);
+    }
   }
 
   @override
@@ -84,25 +107,42 @@ class TransactionItemTile extends StatelessWidget {
               .bodyMedium
               ?.copyWith(color: Colors.grey[600], fontSize: fontSizeBody),
         ),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              '${getSign(transaction.transactionType)}${transaction.amount}฿',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: transaction.transactionType == 'outflow'
-                      ? Colors.red
-                      : Colors.green,
-                  fontSize: fontSizeTitle),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  '${getSign(transaction.transactionType)}${transaction.amount}฿',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: transaction.transactionType == 'outflow'
+                            ? Colors.red
+                            : Colors.green,
+                        fontSize: fontSizeTitle,
+                      ),
+                ),
+                Text(
+                  transaction.date.split(' ').first,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.grey[600], fontSize: fontSizeBody),
+                ),
+              ],
             ),
-            Text(
-              transaction.date.split(' ').first,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.grey[600], fontSize: fontSizeBody),
-            )
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.grey),
+              onPressed: () {
+                // Handle delete action here
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return DeleteTransactionDialog(deleteTransaction: () {
+                        deleteTransaction(transaction.transactionId);
+                      });
+                    });
+              },
+            ),
           ],
         ),
       ),

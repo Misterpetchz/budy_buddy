@@ -102,7 +102,9 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
               height: defaultSpacing * 4,
             ),
             ListTile(
-              title: Text('Hey! $userName !'),
+              title: Text('Hey, $userName !',
+                  style: const TextStyle(
+                      fontSize: fontSizeTitle, fontWeight: FontWeight.w600)),
               leading: ClipRRect(
                   borderRadius: BorderRadius.circular(defaultRadius),
                   child: Image.asset('assets/icons/app_icon.png')),
@@ -171,10 +173,6 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
             const SizedBox(
               height: defaultSpacing,
             ),
-            // Text(
-            //   'Today',
-            //   style: TextStyle(color: Colors.grey[600]),
-            // ),
             ...transactions.map(
                 (transaction) => TransactionItemTile(transaction: transaction)),
           ],

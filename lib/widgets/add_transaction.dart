@@ -4,6 +4,7 @@ import 'package:budy_buddy/utils/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class AddTransaction extends StatefulWidget {
   const AddTransaction({Key? key}) : super(key: key);
@@ -21,19 +22,27 @@ class _AddTransactionState extends State<AddTransaction> {
   DateTime? selectedDate = DateTime.now();
 
   String categoryTypeValue = ItemCategoryType.values.first.toString();
-  // String categoryTypeValue = '';
   String transactionTypeValue = TransactionType.values.first.toString();
-  // String transactionTypeValue = '';
 
   final database = FirebaseDatabase.instance;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(.3),
+              spreadRadius: 2,
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            )
+          ]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             'Add Transaction',
@@ -47,7 +56,9 @@ class _AddTransactionState extends State<AddTransaction> {
           ),
           Container(
             padding: const EdgeInsets.symmetric(
-                vertical: 8.0), // Use explicit values
+              vertical: 8.0,
+              horizontal: 8.0,
+            ), // Use explicit values
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(8.0), // Use explicit values
@@ -55,6 +66,7 @@ class _AddTransactionState extends State<AddTransaction> {
             child: DropdownButton<String>(
               value: categoryTypeValue,
               icon: const Icon(Icons.arrow_downward_rounded),
+              iconSize: 24,
               onChanged: (String? newValue) {
                 setState(() {
                   categoryTypeValue = newValue!;
@@ -75,7 +87,10 @@ class _AddTransactionState extends State<AddTransaction> {
             height: 16.0,
           ),
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 8.0,
+            ),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(8.0),
@@ -238,7 +253,11 @@ class _AddTransactionState extends State<AddTransaction> {
         return; // Exit the function
       }
 
+      final uuid = Uuid();
+      final transactionId = uuid.v4();
+
       final transaction = TransactionModel(
+        transactionId: transactionId,
         uid: user.uid,
         categoryType: categoryType,
         transactionType: transactionType,
@@ -251,7 +270,8 @@ class _AddTransactionState extends State<AddTransaction> {
       await database
           .ref()
           .child('transactions')
-          .push() // Use push() to generate a unique key
+          .child(transactionId)
+          // .push() // Use push() to generate a unique key
           .set(transactionModelToJson(transaction));
 
       // Pop the modal bottom sheet when the transaction is added successfully.

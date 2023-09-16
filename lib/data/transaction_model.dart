@@ -1,29 +1,35 @@
 import 'dart:convert';
 
-TransactionModel transactionModelFromJson(String str) => TransactionModel.fromJson(json.decode(str));
+TransactionModel transactionModelFromJson(String str) =>
+    TransactionModel.fromJson(json.decode(str));
 
-String transactionModelToJson(TransactionModel data) => json.encode(data.toJson());
+String transactionModelToJson(TransactionModel data) =>
+    json.encode(data.toJson());
 
 class TransactionModel {
-    final String uid;
-    final String categoryType;
-    final String transactionType;
-    final String itemCategoryName;
-    final String itemName;
-    final int amount;
-    final String date;
+  final String transactionId;
+  final String uid;
+  final String categoryType;
+  final String transactionType;
+  final String itemCategoryName;
+  final String itemName;
+  final int amount;
+  final String date;
 
-    TransactionModel({
-        required this.uid,
-        required this.categoryType,
-        required this.transactionType,
-        required this.itemCategoryName,
-        required this.itemName,
-        required this.amount,
-        required this.date,
-    });
+  TransactionModel({
+    required this.transactionId,
+    required this.uid,
+    required this.categoryType,
+    required this.transactionType,
+    required this.itemCategoryName,
+    required this.itemName,
+    required this.amount,
+    required this.date,
+  });
 
-    factory TransactionModel.fromJson(Map<String, dynamic> json) => TransactionModel(
+  factory TransactionModel.fromJson(Map<String, dynamic> json) =>
+      TransactionModel(
+        transactionId: json["transactionId"] ?? "",
         uid: json["uid"],
         categoryType: json["categoryType"],
         transactionType: json["transactionType"],
@@ -31,9 +37,10 @@ class TransactionModel {
         itemName: json["itemName"],
         amount: json["amount"],
         date: json["date"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
+        "transactionId": transactionId,
         "uid": uid,
         "categoryType": categoryType,
         "transactionType": transactionType,
@@ -41,5 +48,5 @@ class TransactionModel {
         "itemName": itemName,
         "amount": amount,
         "date": date,
-    };
+      };
 }
