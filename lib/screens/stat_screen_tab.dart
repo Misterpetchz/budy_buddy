@@ -18,7 +18,7 @@ class StatScreenTab extends StatefulWidget {
 class _StatScreenTabState extends State<StatScreenTab> {
   final database = FirebaseDatabase.instance;
   final currentUser = FirebaseAuth.instance.currentUser!;
-  List transactions = [];
+  List<TransactionModel> transactions = [];
   String selectedTransactionType = 'inflow';
   List<ItemCategoryType> categories = ItemCategoryType.values.toList();
   String selectedCategory = 'All';

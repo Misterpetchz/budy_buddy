@@ -20,7 +20,7 @@ class _HomeScreenTabState extends State<HomeScreenTab> {
   // fetch user data where uid
   final database = FirebaseDatabase.instance;
   final currentUser = FirebaseAuth.instance.currentUser!;
-  List transactions = [];
+  List<TransactionModel> transactions = [];
   String userName = '';
   int inflow = 0;
   int outflow = 0;

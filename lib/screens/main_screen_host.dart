@@ -1,3 +1,4 @@
+import 'package:budy_buddy/screens/bar_chart_screen.dart';
 import 'package:budy_buddy/screens/home_profile_tab.dart';
 import 'package:budy_buddy/screens/home_screen_tab.dart';
 import 'package:budy_buddy/screens/stat_screen_tab.dart';
@@ -33,9 +34,8 @@ class _MainScreenHostState extends State<MainScreenHost> {
         return const HomeScreenTab();
       case 1:
         return const StatScreenTab();
-      // return Container();
       case 2:
-        return Container();
+        return const BarChartScreen();
       case 3:
         return const HomeProfileTab();
       default:
@@ -70,7 +70,7 @@ class _MainScreenHostState extends State<MainScreenHost> {
             SizedBox(
               height: 60,
               child: IconButton(
-                icon: const Icon(Icons.bar_chart_rounded),
+                icon: const Icon(Icons.filter_alt_rounded),
                 color: currentIndex == 1 ? secondaryDark : Colors.black,
                 onPressed: () {
                   setState(() {
@@ -83,7 +83,7 @@ class _MainScreenHostState extends State<MainScreenHost> {
             SizedBox(
               height: 60,
               child: IconButton(
-                icon: const Icon(Icons.wallet_outlined),
+                icon: const Icon(Icons.pie_chart_rounded),
                 color: currentIndex == 2 ? secondaryDark : Colors.black,
                 onPressed: () {
                   setState(() {

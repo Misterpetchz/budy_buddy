@@ -61,7 +61,6 @@ class TransactionItemTile extends StatelessWidget {
 
   void deleteTransaction(String transactionId) async {
     try {
-      print('Deleting with Id: $transactionId');
       final transactionRef = FirebaseDatabase.instance
           .ref()
           .child('transactions')

@@ -139,8 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               onPressed: () {
                 // sign up
                 signUp();
-                // create account
-
+                
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) => const SignInScreen(),

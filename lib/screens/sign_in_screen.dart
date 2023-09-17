@@ -58,22 +58,7 @@ class _SignInScreenState extends State<SignInScreen> {
               controller: _emailController,
               decoration: const InputDecoration(
                 labelText: 'Email',
-                // labelStyle: TextStyle(
-                //   color: Colors.grey,
-                // ),
-                // focusedBorder: OutlineInputBorder(
-                //   borderSide: BorderSide(
-                //     color: Colors.white,
-                //   ),
-                // ),
-                // enabledBorder: OutlineInputBorder(
-                //   borderSide: BorderSide(
-                //     color: Colors.grey,
-                //   ),
-                // ),
               ),
-              // style: const TextStyle(color: Colors.white),
-              // cursorColor: Colors.white,
             ),
             const SizedBox(
               height: 10,
