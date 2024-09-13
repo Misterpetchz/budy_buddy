@@ -253,7 +253,7 @@ class _AddTransactionState extends State<AddTransaction> {
         return; // Exit the function
       }
 
-      final uuid = Uuid();
+      final uuid = const Uuid();
       final transactionId = uuid.v4();
 
       final transaction = TransactionModel(

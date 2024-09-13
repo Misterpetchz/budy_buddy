@@ -46,6 +46,7 @@ class _MainScreenHostState extends State<MainScreenHost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: buildTabContent(currentIndex),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
